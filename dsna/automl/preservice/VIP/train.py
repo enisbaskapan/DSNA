@@ -35,8 +35,8 @@ import tensorflow as tf
 from tensorflow.keras.layers import Dense, Input
 from tensorflow.keras import Sequential
 
-from automl.utils.operate import Transform
-from automl.utils.operate import Process
+from dsna.automl.utils.operate import Transform
+from dsna.automl.utils.operate import Process
 from dsna.base.utils.servant import Format
 
 import pmdarima as pm

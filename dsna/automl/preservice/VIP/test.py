@@ -3,7 +3,7 @@ import numpy as np
 
 from sklearn.metrics import mean_absolute_error, mean_squared_error, median_absolute_error, r2_score, explained_variance_score, classification_report
 
-from automl.utils.operate import Process
+from dsna.automl.utils.operate import Process
 
 from sdv.evaluation import evaluate
 
