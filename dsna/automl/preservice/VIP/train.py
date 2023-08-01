@@ -35,9 +35,8 @@ import tensorflow as tf
 from tensorflow.keras.layers import Dense, Input
 from tensorflow.keras import Sequential
 
-
+from dsna.automl.utils.operate import Transform
 from dsna.automl.utils.operate import Process
-from dsna.automl.preservice.conclude import Preprocess
 from dsna.base.utils.servant import Format
 
 import pmdarima as pm
@@ -45,6 +44,40 @@ from pmdarima import model_selection
 from prophet import Prophet
 
 import gc
+
+class PreprocessModel(Transform):
+    
+    def preprocess_test_data(self, data, dependent_variable):
+        
+
+        X = data.drop(dependent_variable, axis=1)
+        y = data[dependent_variable]
+        
+        X = pd.get_dummies(X, drop_first=True)
+
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)
+        X_train, X_test = self.transform_test_data(X_train, X_test)
+
+
+        return  X_train, X_test, y_train, y_test
+        
+    def preprocess_data(self, data, dependent_variable):
+        
+
+        X = data.drop(dependent_variable, axis=1)
+        y = data[dependent_variable]
+        
+        X = pd.get_dummies(X, drop_first=True)
+        
+        X, scaler = self.transform_data(X)
+
+        return X, y, scaler
+    
+    def preprocess_time_series_data(self, data, test_size):
+        
+        train, test = train_test_split(data, test_size=test_size)
+        
+        return train, test
 
 class CreateModel:
     
@@ -281,7 +314,7 @@ class CreateModel:
         return sdv_model
     
 
-class IncludeModel(CreateModel, Process, Preprocess, Format):
+class IncludeModel(CreateModel, Process, PreprocessModel, Format):
 
     def include_feature_selection(self, model, key, model_object, X_train, X_test, y_train):
         """
