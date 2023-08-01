@@ -1,8 +1,8 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
-from dsna.automl.preservice.VIP.train import CreateModel
-from dsna.automl.preservice.VIP.test import Test
+from automl.preservice.VIP.train import CreateModel
+from automl.preservice.VIP.test import Test
 
 
 class Apply(CreateModel, Test):
