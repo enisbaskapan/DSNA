@@ -5,6 +5,8 @@ from sklearn.metrics import mean_absolute_error, mean_squared_error, median_abso
 
 from dsna.automl.utils.operate import Process
 
+from sdv.evaluation import evaluate
+
 class Test:
     ''' Calculates different metrics (percentage error, mean squared error, R2 ...) '''
     
@@ -65,6 +67,12 @@ class Test:
         for class_ in report_classes_list: classification_report_dictionary[class_]['accuracy'] = accuracy
 
         return classification_report_dictionary
+    
+    def test_sdv_values(self, sample_data, real_data, metrics=['CSTest', 'KSTest'], aggregate=False):
+        
+        evaluation_result = evaluate(sample_data, real_data, metrics, aggregate)
+
+        return evaluation_result
     
 class AssembleTest(Test, Process):
     ''' Create dataframse with test values '''

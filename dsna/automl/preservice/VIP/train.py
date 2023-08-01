@@ -23,6 +23,11 @@ from sklearn.decomposition import KernelPCA
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis
 
+from sdv.tabular import GaussianCopula
+from sdv.tabular import CTGAN
+from sdv.tabular import CopulaGAN
+from sdv.tabular import TVAE
+
 
 from sklearn.model_selection import train_test_split
 
@@ -167,7 +172,7 @@ class CreateModel:
         
         return feature_selector
     
-    def create_dimensionality_reduction_model(self,algorithm,parameters={}):
+    def create_dimensionality_reduction_model(self, algorithm, parameters={}):
         """
         Create a dimensionality reduction model
 
@@ -243,6 +248,37 @@ class CreateModel:
         if algorithm == 'PRH': ts_model = Prophet(**parameters)
         
         return ts_model
+    
+    def create_sdv_model(df, algorithm, parameters = {}):
+        """
+        Build a Synthetic Data Vault model to generate tabular data
+
+        Parameters
+        ----------
+        df : pandas dataframe, default = None
+            Dataframe should not include a Primary Key or Anonymizing Personally Identifiable Information (PII)
+
+        algorithm : {"CC", "CTGAN", "CGAN", "TVAE"}
+            algorithm abbreviation
+
+            CC: GaussianCopula
+            CTGAN: CTGAN
+            CGAN: CopulaGAN
+            TVAE: TVAE
+
+        parameters: dictionary
+            Various parameters that could be defined in different choice of algorithms
+        """
+
+        if algorithm == 'CC': sdv_model = GaussianCopula(**parameters)
+
+        if algorithm == 'CTGAN': sdv_model = CTGAN(**parameters)
+
+        if algorithm == 'CGAN': sdv_model = CopulaGAN(**parameters)
+
+        if algorithm == 'TVAE': sdv_model = TVAE(**parameters)
+
+        return sdv_model
     
 
 class IncludeModel(CreateModel, Process, Preprocess, Format):
