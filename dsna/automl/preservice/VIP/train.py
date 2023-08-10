@@ -45,6 +45,7 @@ from prophet import Prophet
 
 import pandas as pd
 
+
 class PreprocessModel(Transform):
     
     def preprocess_test_data(self, data, dependent_variable):
