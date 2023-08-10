@@ -43,7 +43,7 @@ import pmdarima as pm
 from pmdarima import model_selection
 from prophet import Prophet
 
-import gc
+import pandas as pd
 
 class PreprocessModel(Transform):
     
